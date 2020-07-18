@@ -1,5 +1,6 @@
 import React, { Component} from 'react';
-import {Card , CardImg, CardImgOverlay, CardText,CardBody, CardTitle} from 'reactstrap';
+import {Card , CardImg, CardImgOverlay, CardText,CardBody, CardTitle, Media} from 'reactstrap';
+import DishDetail from './DishdetailComponent';
 
 class Menu extends Component{
     constructor(props) {
@@ -8,34 +9,30 @@ class Menu extends Component{
         this.state = {
             selectedDish: null
             
-        };
+        }
+        console.log('Menu constructor constructor invoked');
     }
+    
+    componentDidMount(){
+        console.log('Menu constructor compDidMount invoked');
+    }
+
     onDishSelect(dish){
         this.setState({selectedDish: dish});
     }
-    renderDish(dish){
-        if(dish != null){
-            return(
-                <Card>
-                      <CardImg width="100%" src={dish.image} alt={dish.name}/>
-                      <CardBody>
-                        <CardTitle> {dish.name}</CardTitle>
-                        <CardText>{dish.description}</CardText>
-                      </CardBody>
-                </Card>
-            )
-        }
-        else{
-            return(
-                <div></div>
-            )
-        }
+
+   renderDish(dish){
+        return(
+            <div>
+            <DishDetail dish= {dish} />
+            </div>
+        )
     }
 
     render(){
         const menu = this.props.dishes.map((dish) => {
             return (
-                <div key={dish.id} className="cold-12 col-md-5 m-1">
+                <div key={dish.id} className="col-12 col-md-5 m-1">
                     <Card onClick={() => this.onDishSelect(dish)}>
                         <CardImg width="100%" src={dish.image} alt={dish.name}/>
                         <CardImgOverlay>
@@ -44,15 +41,16 @@ class Menu extends Component{
                     </Card>
                 </div>
             );
-        });
+        })
+        console.log('Menu constructor render invoked');
 
         return(
             <div className="container">
                 <div className="row">
                         {menu}
                 </div>
-                <div className="row">
-                   {this.renderDish(this.state.selectedDish)};
+              <div className="row">
+                 {this.renderDish(this.state.selectedDish)}
                 </div>
             </div>
         );
