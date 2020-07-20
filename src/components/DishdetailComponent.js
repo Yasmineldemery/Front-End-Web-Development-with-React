@@ -107,7 +107,6 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
                                     <option>3</option>
                                     <option>4</option>
                                     <option>5</option>
-                                    <option>6</option>
                                 </Control.select>
                             </Col>
                         </Row>
