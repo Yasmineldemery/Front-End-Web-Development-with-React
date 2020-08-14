@@ -24,18 +24,26 @@ import { Link } from 'react-router-dom'
 import { Control, LocalForm, Errors } from 'react-redux-form'
 import { Loading } from './LoadingComponent'
 import { baseUrl } from '../shared/baseUrl'
+import { FadeTransform, Fade, Stagger } from 'react-animation-components'
 
 function RenderDish({ dish }) {
   if (dish != null) {
     return (
       <div className='col-12 col-md-5 m-1'>
-        <Card>
-          <CardImg width='100%' src={baseUrl + dish.image} alt={dish.name} />
-          <CardBody>
-            <CardTitle> {dish.name}</CardTitle>
-            <CardText>{dish.description}</CardText>
-          </CardBody>
-        </Card>
+        <FadeTransform
+          in
+          transformProps={{
+            exitTransform: 'scale(0.5) translateY(-50%)',
+          }}
+        >
+          <Card>
+            <CardImg width='100%' src={baseUrl + dish.image} alt={dish.name} />
+            <CardBody>
+              <CardTitle> {dish.name}</CardTitle>
+              <CardText>{dish.description}</CardText>
+            </CardBody>
+          </Card>
+        </FadeTransform>
       </div>
     )
   } else {
@@ -47,28 +55,30 @@ function RenderComments({ comments, postComment, dishId }) {
   if (comments != null) {
     const commentss = comments.map((com) => {
       return (
-        <div key={com.id}>
-          <Media tag='li'>
-            <Media body>
-              <p>{com.comment}</p>
-              <p>
-                {com.author} ,
-                {new Intl.DateTimeFormat('en-US', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: '2-digit',
-                }).format(new Date(Date.parse(com.date)))}
-              </p>
+        <Fade in>
+          <div key={com.id}>
+            <Media tag='li'>
+              <Media body>
+                <p>{com.comment}</p>
+                <p>
+                  {com.author} ,
+                  {new Intl.DateTimeFormat('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: '2-digit',
+                  }).format(new Date(Date.parse(com.date)))}
+                </p>
+              </Media>
             </Media>
-          </Media>
-        </div>
+          </div>
+        </Fade>
       )
     })
     return (
       <div className='col-12 col-md-5 m-1'>
         <h4> Comments</h4>
         <Media list className='list-unstyled'>
-          {commentss}
+          <Stagger in>{commentss}</Stagger>
         </Media>
         <CommentForm dishId={dishId} postComment={postComment} />
       </div>
